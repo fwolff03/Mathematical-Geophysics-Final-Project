@@ -34,6 +34,8 @@ First we attempted to use [FiPy](https://www.ctcms.nist.gov/fipy/), a widely use
   - g is the gravitational constant
   - method selection ('A', 'B' or 'C')
     - c is the default
+5) when you run the cells, it will produce graphs with the channel length along the x axis and the stream flow velocity and water depth are on the x-axis.
+
 ## Contribution Statement:
 
 
