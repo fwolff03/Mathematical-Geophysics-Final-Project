@@ -1,5 +1,5 @@
 # Final Report on Saint-Venant Equations
-## By Max E. and Finley W.
+## By Max Ercolani and Finley Wolff
 
 ### Description of PDE, applications (250-400 words, 1-2 figures)
 
