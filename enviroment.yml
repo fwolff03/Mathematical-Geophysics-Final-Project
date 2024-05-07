@@ -1,0 +1,11 @@
+name: 1D Steady State Saint-Venant Equations
+channels:
+ - conda-forge
+dependencies:
+ - python=3.11.4*
+ - pip
+ - jupyterlab
+ - SWE_Solver
+ - FiPy
+ - matplotlib-base
+ - numpy
