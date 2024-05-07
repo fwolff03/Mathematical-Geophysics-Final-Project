@@ -1,4 +1,4 @@
-name: 1D Steady State Saint-Venant Equations
+name: 1DSV
 channels:
  - conda-forge
 dependencies:
