@@ -2,11 +2,6 @@
 ## Project Members: 
 - Max Ercolani (MaxErcGP)
 - Finley Wolff (fwolff03)
-## Summary: 
-
-
-## Background Infomation:
-
 
 ## Objectives:
 
@@ -37,7 +32,4 @@ First we attempted to use [FiPy](https://www.ctcms.nist.gov/fipy/), a widely use
 5) when you run the cells, it will produce graphs with the channel length along the x axis and the stream flow velocity and water depth are on the x-axis.
 
 ## Contribution Statement:
-
-
-## References:
-
+Max wrote the description of the PDE, and applications. Finley wrote the description of the PDE, all varibles and behavior. Max wrote the limitations of the PDE and simplifiying assumtions. Finley completed the PDE simulation and interactions with the software package. Finley wrote the interpertation of results from the PDE simulation. Max wrote the description of linearity and superposition priciples. Finley wrote about code for the computational expierments and Max wrote about the linearlity and superposition prinicples for the computational expierments. 
