@@ -13,9 +13,9 @@ When looking at one dimensional Saint-Venant Equations, the dimension we are loo
 
 In this study, we will be looking at the steady state 1D Saint-Venant Equations. The steady state assumes that the set of one dimensional equations [4] are not dependent on time, which will simplify our equations and simulation. The resulting equations when looking at the steady state 1D Saint-Venant Equations are:  
 
-1) $\frac{\partial(uh)}{\partial x} = 0$
+Equation 1 $$\frac{\partial(uh)}{\partial x} = 0$$
 
-2) $\frac{\partial(u^2h + \frac{gh^2}{2})}{\partial x} = -gh\frac{\partial xz}{\partial x} - ghSf$
+Equation 2 $$\frac{\partial(u^2h + \frac{gh^2}{2})}{\partial x} = -gh\frac{\partial xz}{\partial x} - ghSf$$
 
 In these equations, the variable u represents the velocity of water in the channel and is measured in meters per second. The variable h is the water's height in the channel or depth and is measured in meters. Gravity is shown by g, and for this study we will assume the gravitational acceleration is 9.81 meters per second. The bed level is shown by z and is measured in meters. Finally, Sf represents the friction slope. Sf is calculated by: 
 
@@ -29,31 +29,79 @@ When the Saint-Venant PDE’s are in a steady state, their behavior shows the ba
 The one dimensional version of the St. Venant System of Equations operate on many basic assumptions about flow. First of all, the flow is one dimensional, this means that the two functions are velocity and water depth. The first assumption is the velocity of the channel is uniform across the cross section of flow, meaning the flow only has one value at any position (x) and time (t) along the channel. The second assumption is Manning's equation 
 for friction ($S_f$). The third assumption is a low incline of the channel and flow, meaning a very flat channel. The fourth assumption is that the water (or fluid) has a constant denisty, and is thus incompressible. Lastly, we assume that there is no sediment movement from transportation or deposition [1][3].
 
-We have gone a step further in assuming a steady state solution to the one dimensional St. Venant System of Equations. All of the time dependent terms are removed, and the equations are reduced to:
+We have derived Equations 1 and 2 using a similar approach to Thi in a research paper on the 1 dimensional St. Venant Equations [4]. We have gone a step further in assuming a steady state solution to the one dimensional St. Venant System of Equations. All of the time dependent terms are removed, and the equations are reduced to:
 
 Equation 1: $$\frac{\displaystyle \partial (uh)}{\displaystyle \partial x}  = 0$$
 
 Equation 2: $$\frac{\displaystyle \partial (u^2h)}{\displaystyle \partial x} + \frac{\displaystyle g}{\displaystyle 2}\frac{\displaystyle \partial (h^2)}{\displaystyle \partial x} + (\frac{\displaystyle (uh)^2}{\displaystyle h^2} - gh)\frac{\displaystyle \partial h}{\displaystyle \partial x} + (1 + gh) \frac{\displaystyle n^2u|u|}{\displaystyle h^{4/3}} = 0$$
-
-- 1D flow, velocity is uniform across the cross section of flow.
-
-- Minimal curvature of the stream, there is no stratification of the water, or differences in pressure vertically.
-
-- Manning's equation for friction
-
-- Low incline of flow. The bed slope $\theta$ is small enough to satisfy $cos\theta \approx 1$, and $sine\theta \approx tan\theta$
-
-- Fluid maintains a constant density (incompressible)
-
-- No sediment transport or deposition
-
-We have derived Equations 1 and 2 using a similar approach to Thi in a research paper on the 1 dimensional St. Venant Equations [3]. We dec
 
 ### Complete description of first PDE simulation and interaction with software package (300-500 words, 1-2 figures)
 
 ### Interpretation of results from first PDE simulation (200-350 words, 1-2 figures)
 
 ### Description of linearity and superposition principles as applicable (200-350 words and must include blocks of equations or math work, can include diagrams as needed)
+
+#### Linearity
+
+We evaluated the linearity of both equations using the (assumed) linear operators $L_1$ and $L_2$ which represent the PDEs. We used the definition of linearity that if $L_1(u, h) = L_1(au_1 + bu_2, h)$ or $L_2(u, h) = L_2(u, ah_1 + bh_2)$ where *a* and *b* are constants in $\mathbb{R}$,where *a* and *b* are constants in $\mathbb{R}$,
+
+then, if $L_1(au_1 + bu_2, h) = aL_1(u_1, h) + bL_1(u_2, h)$, then the PDE is linear.
+
+For Equation 1:
+
+$L_1(au_1 + bu_2, h) = 0$
+
+$\frac{\displaystyle \partial (au_1 + bu_2) h}{\displaystyle \partial x}= 0$
+
+$a\frac{\displaystyle \partial u_1h}{\displaystyle \partial x} + b\frac{\displaystyle \partial u_2h}{\displaystyle \partial x} = 0$
+
+$= aL_1(u_1, h) + bL_1(u_2, h)$
+
+and
+
+$L_2(u, ah_1 + bh_2) = 0$
+
+$\frac{\displaystyle \partial u (ah_1 + bh_2)}{\displaystyle \partial x}= 0$
+
+$a\frac{\displaystyle \partial uh_1}{\displaystyle \partial x} + b\frac{\displaystyle \partial uh_2}{\displaystyle \partial x} = 0$
+
+$= aL_1(u, h_1) + bL_1(u, h_2)$ 
+
+**Therefore, Equation 1 is linear**
+
+For Equation 2:
+
+$L_1(au_1 + bu_2, h) = 0$
+
+$\frac{\displaystyle \partial ((au_1 + bu_2)^2h)}{\displaystyle \partial x} + \frac{\displaystyle g}{\displaystyle 2}\frac{\displaystyle \partial (h^2)}{\displaystyle \partial x} + (\frac{\displaystyle ((au_1 + bu_2)h)^2}{\displaystyle h^2} - gh)\frac{\displaystyle \partial h}{\displaystyle \partial x} + (1 + gh) \frac{\displaystyle n^2(au_1 + bu_2)|(au_1 + bu_2)|}{\displaystyle h^{4/3}} = 0$
+
+Because of the various instances of the polynomial (au_1 + bu_2) being squared, the left hand side of the equation cannot be manipulated into the form of:
+
+$aL_1(u, h_1) + bL_1(u, h_2)$
+
+meaning, $L_1(au_1 + bu_2, h) \neq aL_1(u, h_1) + bL_1(u, h_2)$.
+
+Equation 2 is, therefore, a **non linear PDE**
+
+#### Superposition
+
+Equation 1 is linear and homogeneous, 
+
+assume $q = uh$
+
+$(q)= (q_1 + q_2)$ where *a* and *b* are constants in $\mathbb{R}$,
+
+$g(q_1x + q_2x) = L_1(aq_1 + bq_2)$
+
+$g = a_0L(q_1) + b_0L(q_2)$
+
+$g = a_0g + b_0g$
+
+$a_0 + b_0 = 1$
+
+Thus, Equation 1 **has a property of superposition** if the coefficients of the solutions of the homogeneous equation being combined sum to 1.
+
+Equation 2 is non linear, and inhomogeneous, and thus **does not have any property of superposition**
 
 ### Full description of computational experiments’ comparison to check validity of linearity or superposition principles (250-350 words, 1 figure)
 
