@@ -11,15 +11,18 @@ The Saint-Venant Equations are a set of two partial differential equations, comm
 
 When looking at one dimensional Saint-Venant Equations, the dimension we are looking at is the spacial dimension. This means that the depth is assumed to be uniform across the width of the channel and the fluid's velocity is uniform in both the depth and width. In this case, we assume that the vertical acceleration and the hydrostatic pressure are negligible and that the streamline curvature is negligible. Although the one-dimension Saint-Venant Equations are simplified, they are still useful for understanding water movements in different water channels. 
 
-In this study, we will be looking at the steady state 1D Saint-Venant Equations. The steady state assumes that the set of one dimensional equations [4] are not dependent on time, which will simplify our equations and simulation. The resulting equations when looking at the steady state 1D Saint-Venant Equations are:  
+In this study, we will be looking at the steady state 1D Saint-Venant Equations. The steady state assumes that the set of one dimensional equations [4] are not dependent on time, which will simplify our equations and simulation. The resulting equations when looking at the steady state 1D Saint-Venant Equations are [5][6]:  
 
 Equation 1 $$\frac{\partial(uh)}{\partial x} = 0$$
 
 Equation 2 $$\frac{\partial(u^2h + \frac{gh^2}{2})}{\partial x} = -gh\frac{\partial xz}{\partial x} - ghSf$$
 
-In these equations, the variable u represents the velocity of water in the channel and is measured in meters per second. The variable h is the water's height in the channel or depth and is measured in meters. Gravity is shown by g, and for this study we will assume the gravitational acceleration is 9.81 meters per second. The bed level is shown by z and is measured in meters. Finally, Sf represents the friction slope. Sf is calculated by: 
+![IMG_0087](https://github.com/fwolff03/Mathematical-Geophysics-Final-Project/assets/156112882/6aa8aeef-67cb-4840-8c5b-e2ba2a2dd831)
+
+In these equations and diagram, the variable u represents the velocity of water in the channel and is measured in meters per second. The variable h is the water's height in the channel or depth and is measured in meters. Gravity is shown by g, and for this study we will assume the gravitational acceleration is 9.81 meters per second. The bed level is shown by z and is measured in meters. Finally, Sf represents the friction slope. Sf is calculated by: 
 
 $S_f = \frac{n^2 |u| u}{h^{4/3}}$
+
 where n is the Mannings coefficient which shows the roughness of a surface, u is the stream velocity, and h is the depth of the stream at a certain spot along the length of the channel. 
 
 When the Saint-Venant PDE’s are in a steady state, their behavior shows the balance between the forces driving the flow of a channel of water and the forces resisting the flow. The gravitational forces are driving the flow of water while friction is resisting the flow. This balance comes after there has been enough time for the conservation of mass and conservation of momentum equations to reach equilibrium.  
@@ -37,11 +40,19 @@ Equation 2: $$\frac{\displaystyle \partial (u^2h)}{\displaystyle \partial x} + \
 
 ### Complete description of first PDE simulation and interaction with software package (300-500 words, 1-2 figures)
 
+We completed our first steady state 1 dimensional simulation of the Saint-Venant Equations, or the Shallow Water Equations was done with the SWE_Solver with Python. The SWE_Solver, which stands for the Shallow Water Equation Solver, was created by Daniel Cortild and is public on GitHub. It solves shallow water equations such as the Saint-Venant partial differential equations. Below is a photo of an example of the code used to run the SWE_Solver.
+
+![image](https://github.com/fwolff03/Mathematical-Geophysics-Final-Project/assets/156112882/589b6a59-6d96-48f8-93a0-fe5604d4a960)
+
+The SWE_Solver it takes the input, B or the bottom topography function, which defines the topographic profile. It takes spatial coordinates as an input and returns the bottom height at each of those coordinates. Since our simulation is in 1 dimension, this function is only with respect to x, or the length of the channel meaning the bottom topography is consistent across the width of the channel. Additionally, it takes an input of Nx or the number of spatial grid point. It also requires the input h0, or the water height profile. It takes an array that must be the same length as Nx. The solver also takes an input of u0 or the water velocity profile. This also takes an input of an array that must be the same length as Nx. Finally, it uses the inputs of tEnd and timePoints. While we are trying to simulate the steady state of the 1d Saint-Venant equations, this solver requires these inputs. In attempt to navigate these inputs, I initially set tEnd to a large number, 100, however, it took nearly 20 minutes to run. After some testing, using similar initializing to the SWE_Solvers example for steady states, I found the water heights to nearly converge around nearly 15 seconds, which I show in my initial simulation. In the simulation, g is the gravitational constant and for this simulator, a g value of 1 is “normal”. Additionally, they take an input of a method which is how they solve the equations. While there was no written documentation on how the methods, A, B, C and D differ, after looking at the code and some of my own experimentation, I found method C to be their default method and I found method A to have the quickest run time. I decided to use method A to make the simulations more efficient. When you run plotSWE, it outputs h and u. The array h contains the water height profile at the final time point and u is an array with the water velocity profile at the final time point. The SWE_Solver does not include viscosity and bottom friction, which is something to be aware of when comparing this to our other equations, diagrams and proofs of linearity. 
+
 ### Interpretation of results from first PDE simulation (200-350 words, 1-2 figures)
 
-### Description of linearity and superposition principles as applicable (200-350 words and must include blocks of equations or math work, can include diagrams as needed)
+![image](https://github.com/fwolff03/Mathematical-Geophysics-Final-Project/assets/156112882/882ab23a-0062-48a7-a6b8-d668218abd06) 
 
-#### Linearity
+This simulation has a Nx equal to 50 or 50 spatial grid points. I found 50 to be an adequate amount without making the simulation rather inefficient. The bottom topography in the simulation is -x or a down sloping bottom with a slope of -1. The water height profile is defined as [2 - B(_ / (Nx-1)) for _ in range(Nx)] which was standard in their simulations. I defined the initial stream velocity similar to their examples as well by 5 for _ in range(Nx). The end time is set to 15 seconds, which as discussed previously, is where I found the happy medium between nearly steady state and an acceptable run time. For the purpose of showing this in the initial visualization, I am plotting the water height at t = 0, t=7, t=14 and t=15. In the figure, you can see the y axis is depth and the x axis is the length of the channel which you can not change in the simulation. The blue line represents the water height at t=0 or the beginning of the simulation. The blue line sits at a constant height of 2 meters. When t=7, you can see the water height is nearly 1.63 meters at x=0. Then after another 7 seconds, it decreases to 1.4 at x=0. Then at t=15 it is just slightly below 1.4 at x=0. These three are all parallel meaning the water height decreases proportionally throughout the length of the channel which would make sense in a 1D steady state version of the Saint-Venant equations. 
+
+### Description of linearity and superposition principles as applicable (200-350 words and must include blocks of equations or math work, can include diagrams as needed)
 
 We evaluated the linearity of both equations using the (assumed) linear operators $L_1$ and $L_2$ which represent the PDEs. We used the definition of linearity that if $L_1(u, h) = L_1(au_1 + bu_2, h)$ or $L_2(u, h) = L_2(u, ah_1 + bh_2)$ where *a* and *b* are constants in $\mathbb{R}$,where *a* and *b* are constants in $\mathbb{R}$,
 
@@ -105,7 +116,13 @@ Equation 2 is non linear, and inhomogeneous, and thus **does not have any proper
 
 ### Full description of computational experiments’ comparison to check validity of linearity or superposition principles (250-350 words, 1 figure)
 
+To complete a computational experiment to check the validity of the linearity and superposition principles, we have decided to run the initial simulation and change the initial conditions for height and stream velocity. We are going to double the initial height first and see if it has a linear relationship on the steady state height or the height at t=15. Then we are going to return to the initial height and double the initial stream velocity. We will see if this has a linear relationship on the steady state water depth. 
+
 ### Description of results and interpretation of computational experiments’ comparison to check validity of linearity of superposition principles (150-250 words, 1-2 figures)
+
+![Screenshot (155)](https://github.com/fwolff03/Mathematical-Geophysics-Final-Project/assets/156112882/5f5e7771-8aa4-4746-aa41-fd12b738d291)
+
+![Screenshot (154)](https://github.com/fwolff03/Mathematical-Geophysics-Final-Project/assets/156112882/24b3d722-84a9-4640-8d71-2c9e23311834)
 
 ### Sources
 
@@ -116,3 +133,7 @@ Equation 2 is non linear, and inhomogeneous, and thus **does not have any proper
 [3] C. Hewett, “1D hydrodynamic models,” YouTube, https://www.youtube.com/watch?v=FHLCbNClRFY (accessed May 7, 2024). 
 
 [4] Ngoc Tuoi Vo Thi. One dimensional Saint-Venant system. Analysis of PDEs [math.AP]. 2008. ffdumas00597434f
+
+[5] D. Cortild, “Well-Balanced Schemes for Shallow Water Equations,” github.com, https://github.com/DanielCortild/SWE-Solver/blob/main/paper.pdf (accessed May 5, 2024). 
+
+[6] One dimensional Saint-Venant System - Dumas, https://dumas.ccsd.cnrs.fr/dumas-00597434v1/document (accessed May 8, 2024). 
