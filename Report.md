@@ -1,7 +1,7 @@
 # Final Report on Saint-Venant Equations
 ## By Max Ercolani and Finley Wolff
 
-### Description of PDE, applications (250-400 words, 1-2 figures)
+### Description of PDE, Applications
 
 The St. Venant system of equations models unsteady open channel flows. The equations solve for discharge (volume/time), and wetted area of the channel. This allows modelling of systems such as rivers, stormwater systems, irrigation channels, hydropower channels, and spillway systems, to optimize those sytems, and to avoid flooding [1][2]. There are a variety of assumptions made when using the St. Venant equations, and these are most compatible with artificial channels that have very simple and consistent geometries, paths, etc. Therefore, the greatest use of the St. Venant equations are for designing and monitoring channels for irrigation, stormwater, and spillways. This allows engineers and officials to predict when floods might be possible, and based on a variety of factors, how much discharge there could be, and how much the channel could overflow.
 
@@ -9,7 +9,7 @@ The St. Venant system of equations models unsteady open channel flows. The equat
 
 In the above figure from the New York Times (https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nytimes.com%2Finteractive%2F2017%2F02%2F13%2Fus%2Foroville-dam.html&psig=AOvVaw29LTzNBueH3xNPRz2CeKEh&ust=1715231428174000&source=images&cd=vfe&opi=89978449&ved=0CBQQjhxqFwoTCLC7zJOl_YUDFQAAAAAdAAAAABBF) the Lake Oroville dam spillway is shown. While the failure shown was not due to any explicit application or non-application of the St. Venant equations, it does show how important water infrastructure is to our country, and why we should take great effort in designing water channels.
 
-### Description of PDE, all variables and behavior (400-600 words, 1-2 figures)
+### Description of PDE, All Variables and Behavior
 
 The Saint-Venant Equations are a set of two partial differential equations, commonly known as the Shallow Water Equations. It consists of the continuity or conservation of mass equation and conservation of momentum equation which simulate the movement of unsteady flows in open channels [3]. The conservation mass equation is linear while the conservation of momentum equation is non-linear. When looking at the Saint-Venant Equations, shallow flow is defined as the water depth being small when compared to the width of the body of water. This can be seen in manmade river canals, farm ditches, river and streams. 
 
@@ -31,7 +31,7 @@ where n is the Mannings coefficient which shows the roughness of a surface, u is
 
 When the Saint-Venant PDE’s are in a steady state, their behavior shows the balance between the forces driving the flow of a channel of water and the forces resisting the flow. The gravitational forces are driving the flow of water while friction is resisting the flow. This balance comes after there has been enough time for the conservation of mass and conservation of momentum equations to reach equilibrium.  
 
-### Limitations of PDE or simplifying assumptions (100-200 words)
+### Limitations of PDE and Simplifying Assumptions
 
 The one dimensional version of the St. Venant System of Equations operate on many basic assumptions about flow. First of all, the flow is one dimensional, this means that the two functions are velocity and water depth. The first assumption is the velocity of the channel is uniform across the cross section of flow, meaning the flow only has one value at any position (x) and time (t) along the channel. The second assumption is Manning's equation 
 for friction ($S_f$). The third assumption is a low incline of the channel and flow, meaning a very flat channel. The fourth assumption is that the water (or fluid) has a constant denisty, and is thus incompressible. Lastly, we assume that there is no sediment movement from transportation or deposition [1][3].
@@ -42,7 +42,7 @@ Equation 1: $$\frac{\displaystyle \partial (uh)}{\displaystyle \partial x}  = 0$
 
 Equation 2: $$\frac{\displaystyle \partial (u^2h)}{\displaystyle \partial x} + \frac{\displaystyle g}{\displaystyle 2}\frac{\displaystyle \partial (h^2)}{\displaystyle \partial x} + (\frac{\displaystyle (uh)^2}{\displaystyle h^2} - gh)\frac{\displaystyle \partial h}{\displaystyle \partial x} + (1 + gh) \frac{\displaystyle n^2u|u|}{\displaystyle h^{4/3}} = 0$$
 
-### Complete description of first PDE simulation and interaction with software package (300-500 words, 1-2 figures)
+### Complete description of first PDE simulation and interaction with software package
 
 We completed our first steady state 1 dimensional simulation of the Saint-Venant Equations, or the Shallow Water Equations was done with the SWE_Solver with Python. The SWE_Solver, which stands for the Shallow Water Equation Solver, was created by Daniel Cortild and is public on GitHub. It solves shallow water equations such as the Saint-Venant partial differential equations. Below is a photo of an example of the code used to run the SWE_Solver.
 
@@ -50,13 +50,13 @@ We completed our first steady state 1 dimensional simulation of the Saint-Venant
 
 The SWE_Solver it takes the input, B or the bottom topography function, which defines the topographic profile. It takes spatial coordinates as an input and returns the bottom height at each of those coordinates. Since our simulation is in 1 dimension, this function is only with respect to x, or the length of the channel meaning the bottom topography is consistent across the width of the channel. Additionally, it takes an input of Nx or the number of spatial grid point. It also requires the input h0, or the water height profile. It takes an array that must be the same length as Nx. The solver also takes an input of u0 or the water velocity profile. This also takes an input of an array that must be the same length as Nx. Finally, it uses the inputs of tEnd and timePoints. While we are trying to simulate the steady state of the 1d Saint-Venant equations, this solver requires these inputs. In attempt to navigate these inputs, I initially set tEnd to a large number, 100, however, it took nearly 20 minutes to run. After some testing, using similar initializing to the SWE_Solvers example for steady states, I found the water heights to nearly converge around nearly 15 seconds, which I show in my initial simulation. In the simulation, g is the gravitational constant and for this simulator, a g value of 1 is “normal”. Additionally, they take an input of a method which is how they solve the equations. While there was no written documentation on how the methods, A, B, C and D differ, after looking at the code and some of my own experimentation, I found method C to be their default method and I found method A to have the quickest run time. I decided to use method A to make the simulations more efficient. When you run plotSWE, it outputs h and u. The array h contains the water height profile at the final time point and u is an array with the water velocity profile at the final time point. The SWE_Solver does not include viscosity and bottom friction, which is something to be aware of when comparing this to our other equations, diagrams and proofs of linearity. 
 
-### Interpretation of results from first PDE simulation (200-350 words, 1-2 figures)
+### Interpretation of results from first PDE simulation
 
 ![image](https://github.com/fwolff03/Mathematical-Geophysics-Final-Project/assets/156112882/882ab23a-0062-48a7-a6b8-d668218abd06) 
 
 This simulation has a Nx equal to 50 or 50 spatial grid points. I found 50 to be an adequate amount without making the simulation rather inefficient. The bottom topography in the simulation is -x or a down sloping bottom with a slope of -1. The water height profile is defined as [2 - B(_ / (Nx-1)) for _ in range(Nx)] which was standard in their simulations. I defined the initial stream velocity similar to their examples as well by 5 for _ in range(Nx). The end time is set to 15 seconds, which as discussed previously, is where I found the happy medium between nearly steady state and an acceptable run time. For the purpose of showing this in the initial visualization, I am plotting the water height at t = 0, t=7, t=14 and t=15. In the figure, you can see the y axis is depth and the x axis is the length of the channel which you can not change in the simulation. The blue line represents the water height at t=0 or the beginning of the simulation. The blue line sits at a constant height of 2 meters. When t=7, you can see the water height is nearly 1.63 meters at x=0. Then after another 7 seconds, it decreases to 1.4 at x=0. Then at t=15 it is just slightly below 1.4 at x=0. These three are all parallel meaning the water height decreases proportionally throughout the length of the channel which would make sense in a 1D steady state version of the Saint-Venant equations. 
 
-### Description of linearity and superposition principles as applicable (200-350 words and must include blocks of equations or math work, can include diagrams as needed)
+### Description of linearity and superposition principles
 
 We evaluated the linearity of both equations using the (assumed) linear operators $L_1$ and $L_2$ which represent the PDEs. We used the definition of linearity that if $L_1(u, h) = L_1(au_1 + bu_2, h)$ or $L_2(u, h) = L_2(u, ah_1 + bh_2)$ where *a* and *b* are constants in $\mathbb{R}$,where *a* and *b* are constants in $\mathbb{R}$,
 
@@ -118,11 +118,11 @@ Thus, Equation 1 **has a property of superposition** if the coefficients of the 
 
 Equation 2 is non linear, and inhomogeneous, and thus **does not have any property of superposition**
 
-### Full description of computational experiments’ comparison to check validity of linearity or superposition principles (250-350 words, 1 figure)
+### Full description of computational experiments’ comparison to check validity of linearity and superposition principles
 
 As described above, if a system of PDEs have a principle of superposition, that means that any combination of any solutions to the linear PDE is also a solution. While we have determined that the 1D steady state St. Venant system of equations is non-linear, this computational experiment will justify that hypothesis. To check the validity of our understanding of the linearity and superposition principles of our PDE system, we have decided to run the initial simulation, changing the boundary conditions for height and stream velocity. If one solution with certain boundary conditions is a consistent solution, then doubling those boundary conditions, which is effectively combining those solutions together, should yield a solution that has a linear relationship with the first solution. This would look like a water depth that is changed by a factor of two, or a velocity that has been changed by a factor of two. We will double the boundary height first and see if there is a linear relationship between the steady state height and the height at a time of 15. Then we are going to return to the boundary height and double the boundary stream velocity. We will determine if there is a linear relationship between the steady state water depth, and the water depth at a time of 15. 
 
-### Description of results and interpretation of computational experiments’ comparison to check validity of linearity of superposition principles (150-250 words, 1-2 figures)
+### Description of results and interpretation of computational experiments’ comparison to check validity of linearity and superposition principles
 
 In the figure shown below, we expiremented with doubling the boundary water depth value. This yields different values for the system, but a very similar slope of water depth with increasing position (x). This would suggest a linear relationship between the boundary water depth and the water depth solution, as the values are different, but have similar, if not equal, trends.
 
